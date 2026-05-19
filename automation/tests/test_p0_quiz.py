@@ -13,8 +13,22 @@ def test_height_boundary():
         page.click("text=18-29")
         page.click("text=Continue")
 
-        for _ in range(26):
-            page.click("text=Continue")
+class QuizFlow:
+    def __init__(self, page):
+        self.page = page
+
+    def answer_single_choice(self):
+        self.page.locator("button").first.click()
+
+    def next(self):
+        self.page.click("text=Continue")
+
+    def run(self):
+        for _ in range(50):
+            if not self.page.locator("text=Continue").is_visible():
+                break
+            self.answer_single_choice()
+            self.next()
 
         height_input = page.locator("input")
         height_input.fill("89")
