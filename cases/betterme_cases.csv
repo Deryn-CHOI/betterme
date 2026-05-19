@@ -1,0 +1,60 @@
+用例ID,模块,子模块,优先级,用例类型,前置条件,步骤,预期结果,来源标签,关联风险ID
+Q-001,Quiz,Height Input,P0,Boundary,进入身高页,输入89cm,提示最小值90cm,AI+人工修改,R-001
+Q-002,Quiz,Height Input,P0,Boundary,进入身高页,输入90cm,允许进入下一步,AI+人工修改,R-001
+Q-003,Quiz,Height Input,P0,Boundary,进入身高页,输入243cm,允许进入下一步,AI+人工修改,R-001
+Q-004,Quiz,Height Input,P0,Boundary,进入身高页,输入244cm,提示超出范围,AI+人工修改,R-001
+Q-005,Quiz,Height Input,P0,Negative,进入身高页,输入emoji,提示非法输入,人工原创,R-001
+Q-006,Quiz,Height Input,P0,Security,进入身高页,输入<script>,系统转义,人工原创,R-001
+Q-007,Quiz,Current Weight,P0,Boundary,进入当前体重页,输入0kg,提示非法值,AI+人工修改,R-002
+Q-008,Quiz,Current Weight,P0,Boundary,进入当前体重页,输入500kg,提示非法值,AI+人工修改,R-002
+Q-009,Quiz,Current Weight,P0,Boundary,进入当前体重页,输入60kg,BMI动态更新,AI+人工修改,R-002
+Q-010,Quiz,Goal Weight,P0,Boundary,进入目标体重页,输入低于BMI范围,出现WHO underweight warning,AI+人工修改,R-003
+Q-011,Quiz,Goal Weight,P0,Boundary,进入目标体重页,输入正常范围最小值,允许继续,AI+人工修改,R-003
+Q-012,Quiz,Goal Weight,P0,Boundary,进入目标体重页,输入正常范围最大值,允许继续,AI+人工修改,R-003
+Q-013,Quiz,Goal Weight,P0,Localization,进入目标体重页,kg切换lb,数值正确转换,AI+人工修改,R-009
+Q-014,Quiz,Goal Weight,P0,State Recovery,输入目标体重后刷新页面,数据正确恢复,人工原创,R-003
+Q-015,Quiz,Goal Weight,P0,Negative,输入负数目标体重,提示非法输入,AI+人工修改,R-003
+Q-016,Quiz,Target Zones,P1,Negative,不选择任何target zone,无法继续,AI+人工修改,R-001
+Q-017,Quiz,Target Zones,P1,Happy,多选多个zone,正确保存状态,AI生成,R-001
+Q-018,Quiz,Sensitive Areas,P1,Happy,选择None of the above,其他选项取消选中,人工原创,R-001
+Q-019,Quiz,Energy Levels,P2,Happy,选择不同energy level,正确保存,AI生成,R-001
+Q-020,Quiz,Diet Preference,P1,Negative,快速切换多个diet preference,最终状态正确,人工原创,R-001
+Q-021,Quiz,Email,P0,Boundary,输入空邮箱,提示必填,AI+人工修改,R-001
+Q-022,Quiz,Email,P0,Boundary,输入非法邮箱,提示格式错误,AI+人工修改,R-001
+Q-023,Quiz,Email,P0,Boundary,输入合法邮箱,允许继续,AI+人工修改,R-001
+Q-024,Quiz,Name,P1,Boundary,输入超长姓名,提示长度限制,AI+人工修改,R-001
+Q-025,Quiz,Name,P1,Security,输入SQL关键字,系统转义,人工原创,R-001
+PW-001,Paywall,Price Display,P0,Boundary,进入paywall,验证¥12/7≈¥1.71,价格计算一致,人工原创,R-005
+PW-002,Paywall,Price Display,P0,Boundary,进入paywall,验证¥28/28≈¥1.00,价格计算一致,人工原创,R-005
+PW-003,Paywall,Countdown,P0,State Recovery,刷新页面,倒计时不重置,人工原创,R-004
+PW-004,Paywall,Countdown,P0,State Recovery,切换标签页后返回,倒计时继续,人工原创,R-004
+PW-005,Paywall,Countdown,P0,Negative,修改本地时间,倒计时不异常,人工原创,R-004
+PW-006,Paywall,Countdown,P0,Negative,倒计时结束,优惠失效,AI+人工修改,R-004
+PW-007,Paywall,Scratch Card,P1,Interaction,部分刮开,折扣未完全显示,人工原创,R-008
+PW-008,Paywall,Scratch Card,P1,Interaction,100%刮开,显示完整折扣,人工原创,R-008
+PW-009,Paywall,Scratch Card,P1,Compatibility,移动端touch刮奖,正常响应,人工原创,R-008
+PW-010,Paywall,Plan Selection,P1,Happy,切换套餐,价格同步更新,AI生成,R-005
+CK-001,Checkout,Card Number,P0,Boundary,输入合法卡号,Luhn通过,AI+人工修改,R-006
+CK-002,Checkout,Card Number,P0,Negative,输入4000000000000002,支付被拒,AI+人工修改,R-006
+CK-003,Checkout,Card Number,P0,Boundary,复制粘贴含空格卡号,自动格式化,AI+人工修改,R-006
+CK-004,Checkout,Card Number,P0,Security,输入emoji,提示非法字符,人工原创,R-006
+CK-005,Checkout,Expiry Date,P0,Boundary,输入过期日期,提示已过期,AI+人工修改,R-006
+CK-006,Checkout,CVV,P0,Boundary,输入2位CVV,提示错误,AI+人工修改,R-006
+CK-007,Checkout,CVV,P0,Boundary,输入3位CVV,允许继续,AI+人工修改,R-006
+CK-008,Checkout,Cardholder Name,P1,Boundary,输入特殊字符,提示非法字符,AI+人工修改,R-006
+CK-009,Checkout,Stripe Failure,P0,Network,block stripe.com,展示支付失败fallback,人工原创,R-007
+CK-010,Checkout,Offline,P0,Network,断网后支付,提示网络错误,人工原创,R-007
+CC-001,Cross-cutting,Responsive,P1,Compatibility,375px打开页面,布局正常,AI生成,R-001
+CC-002,Cross-cutting,Responsive,P1,Compatibility,768px打开页面,布局正常,AI生成,R-001
+CC-003,Cross-cutting,Responsive,P1,Compatibility,1440px打开页面,布局正常,AI生成,R-001
+CC-004,Cross-cutting,Browser Compatibility,P1,Compatibility,Chrome打开流程,功能正常,AI生成,R-001
+CC-005,Cross-cutting,Browser Compatibility,P1,Compatibility,Safari打开流程,功能正常,AI生成,R-001
+CC-006,Cross-cutting,Browser Compatibility,P1,Compatibility,Firefox打开流程,功能正常,AI生成,R-001
+CC-007,Cross-cutting,A11y,P2,A11y,键盘Tab导航,焦点可见,AI生成,R-001
+CC-008,Cross-cutting,A11y,P2,A11y,Screen Reader读取,aria-label正确,人工原创,R-001
+CC-009,Cross-cutting,Performance,P2,Performance,慢网进入quiz,页面仍可用,AI生成,R-001
+SUB-001,Subscription,Trialing,P1,Lifecycle,进入trial,状态为trialing,AI生成,R-010
+SUB-002,Subscription,Renewal,P1,Lifecycle,trial结束后自动续费,状态active,AI生成,R-010
+SUB-003,Subscription,Payment Failed,P1,Lifecycle,续费失败,进入grace period,人工原创,R-010
+SUB-004,Subscription,Canceled,P1,Lifecycle,用户取消订阅,状态canceled,AI生成,R-010
+SUB-005,Subscription,Refunded,P2,Lifecycle,退款后访问内容,权限收回,人工原创,R-010
