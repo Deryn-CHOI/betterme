@@ -202,7 +202,7 @@ def test_quiz_refresh_recovery(page):
 def test_quiz_back_navigation(page):
     page.goto(BASE_URL)
 
-    safe_click(page, "18-29")
+    page.get_by_text("18-29").click()
     page.go_back()
 
     expect(page.locator("text=select your AGE")).to_be_visible()
@@ -211,8 +211,7 @@ def test_quiz_back_navigation(page):
 def test_quiz_network_recovery(page):
     page.goto(BASE_URL)
 
-    safe_click(page, "18-29")
-
+    page.get_by_text("18-29").click()
     # 模拟点击继续
     click_continue(page)
 
