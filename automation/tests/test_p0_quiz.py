@@ -52,6 +52,8 @@ def advance_quiz(page, steps=40):
 
 
 def go_to_height_page(page):
+    page.goto("https://betterme-pilates.com/first-page-brand-palette?flow=2117")
+
     page.wait_for_load_state("domcontentloaded")
 
     try:
@@ -59,9 +61,7 @@ def go_to_height_page(page):
     except:
         pass
 
-    page.wait_for_selector("button", timeout=10000)
-
-    page.locator("button").filter(has_text="18-29").first.click()
+    page.get_by_text("18-29").first.click()
 
     advance_quiz(page, steps=1)
 
