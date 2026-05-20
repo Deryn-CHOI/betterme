@@ -31,8 +31,7 @@ def select_first_option(page):
 
 
 def fill_input(page, value):
-    """填写输入框"""
-    input_box = page.locator("input").first
+    input_box = page.locator("input[type='number']").first
     input_box.fill(str(value))
 
 
@@ -58,17 +57,16 @@ def advance_quiz(page, steps=40):
 
 def go_to_height_page(page):
     page.goto("https://betterme-pilates.com/first-page-brand-palette?flow=2117")
-
     page.wait_for_load_state("domcontentloaded")
 
-    try:
-        page.locator("#onetrust-accept-btn-handler").click(timeout=5000)
-    except:
-        pass
+    if page.locator("text=Accept").count() > 0:
+        page.click("text=Accept")
 
-    page.get_by_text("18-29").first.click()
+    page.get_by_role("button", name=lambda x: "18-29" in x).click()
 
-    advance_quiz(page, steps=1)
+    click_continue(page)
+
+    page.wait_for_selector("input[type='number']", timeout=10000)
 
 
 # ======================
