@@ -37,7 +37,7 @@ def advance_quiz(page, steps=40):
     """
     for _ in range(steps):
         # 输入页优先处理
-        if page.locator("input").is_visible():
+        if page.locator("input[type='text']").first.is_visible():
             fill_input(page, 100)
 
         # 单选/多选
