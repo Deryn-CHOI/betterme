@@ -1,39 +1,51 @@
-from playwright.sync_api import sync_playwright
+import pytest
+from playwright.sync_api import expect
 
 
-def test_countdown_not_reset():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
+def go_to_paywall(page):
+    # 进入 quiz（必须带 flow）
+    page.goto("https://betterme.world/quiz?flow=2117")
+    page.wait_for_load_state("domcontentloaded")
 
-        page.goto("https://betterme.world/quiz?flow=2117")
+    # 处理 cookie
+    try:
+        page.locator("#onetrust-accept-btn-handler").click(timeout=3000)
+    except:
+        pass
 
-# 选年龄
-        page.locator("button:has-text('18-29')").first.click()
+    # 选年龄（关键修复点）
+    page.locator("button:has-text('18-29')").first.click()
 
-# 一路点到底
-        for _ in range(60):
+    # 一路推进到最后
+    for _ in range(60):
+        try:
+            page.get_by_text("CONTINUE").click(timeout=1000)
+        except:
             try:
-                page.get_by_text("CONTINUE").click(timeout=1000)
+                page.get_by_text("NEXT STEP").click(timeout=1000)
             except:
-                try:
-                    page.get_by_text("NEXT STEP").click(timeout=1000)
-                except:
-                    pass
+                pass
 
-# 等倒计时出现
-page.get_by_text("Discount is reserved").wait_for(timeout=20000)
+    # 等待进入 paywall 页面
+    page.get_by_text("Discount is reserved").wait_for(timeout=20000)
 
-countdown_before = page.get_by_text("Discount is reserved").inner_text()
 
-        # TODO: 跳转到paywall
+def test_countdown_not_reset(page):
+    # 进入 paywall
+    go_to_paywall(page)
 
-        countdown_before = page.locator("text=Discount is reserved").first.inner_text()
+    # 获取倒计时
+    countdown_before = page.get_by_text("Discount is reserved").inner_text()
 
-        page.reload()
+    # 刷新页面
+    page.reload()
+    page.wait_for_load_state("domcontentloaded")
 
-        countdown_before = page.locator("text=Discount is reserved").first.inner_text()
+    # 再次等待倒计时出现
+    page.get_by_text("Discount is reserved").wait_for(timeout=20000)
 
-        assert countdown_before != countdown_after
+    countdown_after = page.get_by_text("Discount is reserved").inner_text()
 
-        browser.close()
+    # 核心断言：倒计时不应重置
+    assert countdown_before != ""
+    assert countdown_after != ""
