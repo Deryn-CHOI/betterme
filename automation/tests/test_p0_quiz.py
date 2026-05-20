@@ -52,12 +52,16 @@ def advance_quiz(page, steps=40):
 
 
 def go_to_height_page(page):
+    page.wait_for_load_state("domcontentloaded")
+
     try:
-        page.get_by_text("Accept").click(timeout=3000)
+        page.locator("#onetrust-accept-btn-handler").click(timeout=5000)
     except:
         pass
 
-    page.locator("button:has-text('18-29')").first.click()
+    page.wait_for_selector("button", timeout=10000)
+
+    page.locator("button").filter(has_text="18-29").first.click()
 
     advance_quiz(page, steps=1)
 
