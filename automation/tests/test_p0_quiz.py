@@ -57,7 +57,7 @@ def go_to_height_page(page):
     except:
         pass
 
-    page.get_by_role("button", name="Age: 18-29").click()
+    page.locator("button:has-text('18-29')").first.click()
 
     advance_quiz(page, steps=1)
 
