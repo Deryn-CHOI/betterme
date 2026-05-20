@@ -10,11 +10,11 @@ def test_countdown_not_reset():
 
         # TODO: 跳转到paywall
 
-        countdown_before = page.locator(".countdown").inner_text()
+        countdown_before = page.locator("text=Discount is reserved").first.inner_text()
 
         page.reload()
 
-        countdown_after = page.locator(".countdown").inner_text()
+        countdown_before = page.locator("text=Discount is reserved").first.inner_text()
 
         assert countdown_before != countdown_after
 
