@@ -64,8 +64,6 @@ def go_to_height_page(page):
 
     page.locator("button:has-text('18-29')").click()
 
-    click_continue(page)
-
     page.wait_for_selector("input[type='number']", timeout=10000)
 
 
