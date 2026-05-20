@@ -51,7 +51,7 @@ def go_to_height_page(page):
         pass
 
     # 1️⃣ 选年龄
-    page.get_by_text("Age: 18-29").first.click()
+    page.locator("button:has-text('18-29')").first.click()
 
     # 2️⃣ page2
     page.get_by_text("CONTINUE").first.click()
@@ -196,7 +196,7 @@ def test_quiz_refresh_recovery(page):
     page.goto(BASE_URL)
     page.reload()
 
-    expect(page.locator("text=select your AGE")).to_be_visible()
+    expect(page.get_by_text("select your AGE to start")).to_be_visible()
 
 
 def test_quiz_back_navigation(page):
