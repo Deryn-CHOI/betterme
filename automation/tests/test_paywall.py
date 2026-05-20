@@ -1,51 +1,52 @@
-import pytest
 from playwright.sync_api import expect
+
+QUIZ_URL = "https://betterme.world/quiz?flow=2117"
+
+
+def click_continue(page):
+    try:
+        page.get_by_text("CONTINUE").first.click(timeout=2000)
+    except:
+        try:
+            page.get_by_text("NEXT STEP").first.click(timeout=2000)
+        except:
+            pass
 
 
 def go_to_paywall(page):
-    # 进入 quiz（必须带 flow）
-    page.goto("https://betterme.world/quiz?flow=2117")
+    page.goto(QUIZ_URL)
     page.wait_for_load_state("domcontentloaded")
 
-    # 处理 cookie
+    # 等首页
+    page.get_by_text("select your AGE to start").wait_for(timeout=10000)
+
+    # cookie
     try:
         page.locator("#onetrust-accept-btn-handler").click(timeout=3000)
     except:
         pass
 
-    # 选年龄（关键修复点）
-    page.locator("button:has-text('18-29')").first.click()
+    # 年龄
+    btn = page.get_by_text("Age: 18-29").first
+    btn.wait_for(timeout=10000)
+    btn.click()
 
-    # 一路推进到最后
-    for _ in range(60):
-        try:
-            page.get_by_text("CONTINUE").click(timeout=1000)
-        except:
-            try:
-                page.get_by_text("NEXT STEP").click(timeout=1000)
-            except:
-                pass
-
-    # 等待进入 paywall 页面
-    page.get_by_text("Discount is reserved").wait_for(timeout=20000)
+    # 一路走到最后（43页）
+    for _ in range(120):
+        click_continue(page)
 
 
 def test_countdown_not_reset(page):
-    # 进入 paywall
     go_to_paywall(page)
 
-    # 获取倒计时
-    countdown_before = page.get_by_text("Discount is reserved").inner_text()
+    countdown = page.get_by_text("Discount is reserved").first
+    countdown.wait_for(timeout=20000)
 
-    # 刷新页面
+    countdown_before = countdown.inner_text()
+
     page.reload()
-    page.wait_for_load_state("domcontentloaded")
 
-    # 再次等待倒计时出现
-    page.get_by_text("Discount is reserved").wait_for(timeout=20000)
+    countdown_after = page.get_by_text("Discount is reserved").first.inner_text()
 
-    countdown_after = page.get_by_text("Discount is reserved").inner_text()
-
-    # 核心断言：倒计时不应重置
     assert countdown_before != ""
     assert countdown_after != ""
