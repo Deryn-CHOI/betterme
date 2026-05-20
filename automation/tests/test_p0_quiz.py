@@ -57,19 +57,26 @@ def advance_quiz(page, steps=40):
 
 import re
 
+def accept_cookies(page):
+    try:
+        page.locator("#onetrust-accept-btn-handler").click(timeout=5000)
+    except:
+        pass
+        
 def go_to_height_page(page):
     page.goto("https://betterme-pilates.com/first-page-brand-palette?flow=2117")
     page.wait_for_load_state("domcontentloaded")
 
-    # 点击年龄（强制点击）
+    accept_cookies(page)
+
     btn = page.locator("button").filter(has_text="18-29").first
     btn.wait_for(timeout=10000)
-    btn.click(force=True)
+    btn.click()
 
-    # 等页面跳转（关键）
+    # 等页面跳转
     page.wait_for_timeout(1000)
 
-    # 等 height 输入框
+    # 等输入框
     page.wait_for_selector("input", timeout=10000)
 
 
