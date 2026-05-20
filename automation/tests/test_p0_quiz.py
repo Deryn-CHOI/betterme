@@ -62,7 +62,7 @@ def go_to_height_page(page):
     if page.locator("text=Accept").count() > 0:
         page.click("text=Accept")
 
-    page.get_by_role("button", name=lambda x: "18-29" in x).click()
+    page.locator("button:has-text('18-29')").click()
 
     click_continue(page)
 
