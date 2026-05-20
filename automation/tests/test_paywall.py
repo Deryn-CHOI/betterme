@@ -3,7 +3,7 @@ from playwright.sync_api import sync_playwright
 
 def test_countdown_not_reset():
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=Ture)
+        browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
         page.goto("https://betterme-pilates.com")
