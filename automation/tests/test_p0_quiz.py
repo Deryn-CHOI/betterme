@@ -41,7 +41,7 @@ def wait_for_text(page, text):
 # ======================
 
 def go_to_height_page(page):
-    page.goto(BASE_URL)
+    page.goto("https://betterme.world/quiz")
     page.wait_for_load_state("domcontentloaded")
 
     # cookie
@@ -50,76 +50,71 @@ def go_to_height_page(page):
     except:
         pass
 
-    # 1. AGE
-    safe_click(page, "18-29")
+    # 1️⃣ 选年龄
+    page.get_by_text("Age: 18-29").first.click()
 
-    # 2
-    click_continue(page)
+    # 2️⃣ page2
+    page.get_by_text("CONTINUE").first.click()
 
-    # 3 goal
-    safe_click(page, "lose weight")
-    click_continue(page)
+    # 3️⃣ goal
+    page.get_by_text("lose weight").first.click()
 
-    # 4 build
-    safe_click(page, "mid")
-    click_continue(page)
+    # 4️⃣ build
+    page.get_by_text("slim").first.click()
 
-    # 5 dream body
-    safe_click(page, "toned")
-    click_continue(page)
+    # 5️⃣ dream body
+    page.get_by_text("thin").first.click()
 
-    # 6 weight change
-    safe_click(page, "gain weight fast")
-    click_continue(page)
+    # 6️⃣ weight change
+    page.get_by_text("gain weight fast").first.click()
 
-    # 7
-    click_continue(page)
+    # 7️⃣ continue
+    page.get_by_text("CONTINUE").first.click()
 
-    # 8
-    safe_click(page, "Less than a year")
-    click_continue(page)
+    # 8️⃣ best shape
+    page.get_by_text("Less than a year ago").first.click()
 
-    # 9
-    safe_click(page, "just starting")
-    click_continue(page)
+    # 9️⃣ pilates exp
+    page.get_by_text("just starting").first.click()
 
-    # 10 target zones
-    safe_click(page, "Belly")
-    click_continue(page)
+    # 10️⃣ target zones
+    page.get_by_text("Belly").click()
+    page.get_by_text("NEXT STEP").click()
 
-    # 10.2
-    click_continue(page)
+    # 11️⃣ continue
+    page.get_by_text("CONTINUE").click()
 
-    # 11
-    safe_click(page, "Just getting started")
-    click_continue(page)
+    # 12️⃣ flexibility
+    page.get_by_text("Pretty flexible").click()
 
-    # 12
-    safe_click(page, "slightly out of breath")
-    click_continue(page)
+    # 13️⃣ stairs
+    page.get_by_text("slightly out of breath").click()
 
-    # 13
-    safe_click(page, "None of the")
-    click_continue(page)
+    # 14️⃣ issues
+    page.get_by_text("None of the").click()
+    page.get_by_text("NEXT STEP").click()
 
-    # 14
-    click_continue(page)
+    # 15️⃣ continue
+    page.get_by_text("CONTINUE").click()
 
-    # 15
-    safe_click(page, "Several times per week")
-    click_continue(page)
+    # 16️⃣ exercise
+    page.get_by_text("Several times per week").click()
 
-    # 16
-    safe_click(page, "3-4 times per week")
-    click_continue(page)
+    # 17️⃣ walks
+    page.get_by_text("3-4 times per week").click()
 
-    # 👉 lifestyle 后面直接快进（核心技巧）
+    # 👉 快速推进（后面全是类似结构）
     for _ in range(10):
-        if not click_continue(page):
-            break
+        try:
+            page.get_by_text("CONTINUE").click(timeout=2000)
+        except:
+            try:
+                page.get_by_text("NEXT STEP").click(timeout=2000)
+            except:
+                pass
 
-    # ✅ 等待 height 页面（关键）
-    wait_for_text(page, "How tall are you")
+    # ✅ 等 height 页面
+    page.get_by_text("How tall are you?").wait_for(timeout=15000)
 
 
 # ======================
