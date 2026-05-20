@@ -70,7 +70,7 @@ def go_to_height_page(page):
 def test_height_min_boundary():
     """Q-001: 身高最小值边界"""
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
+        browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
         go_to_height_page(page)
@@ -86,7 +86,7 @@ def test_height_min_boundary():
 def test_height_valid_boundary():
     """Q-002: 身高合法值"""
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=Ture)
+        browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
         go_to_height_page(page)
@@ -103,7 +103,7 @@ def test_height_valid_boundary():
 def test_height_max_boundary():
     """Q-003: 身高最大值"""
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=Ture)
+        browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
         go_to_height_page(page)
@@ -119,7 +119,7 @@ def test_height_max_boundary():
 def test_height_above_max():
     """Q-004: 超过最大值"""
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=Ture)
+        browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
         go_to_height_page(page)
@@ -135,7 +135,7 @@ def test_height_above_max():
 def test_height_invalid_input():
     """Q-005: 非法输入"""
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=Ture)
+        browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
         go_to_height_page(page)
@@ -152,7 +152,7 @@ def test_height_invalid_input():
 def test_height_xss_input():
     """Q-006: XSS攻击"""
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=Ture)
+        browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
         go_to_height_page(page)
@@ -169,7 +169,7 @@ def test_height_xss_input():
 def test_bmi_recalculation():
     """Q-X01: 修改身高后BMI重新计算"""
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=Ture)
+        browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
         go_to_height_page(page)
@@ -198,7 +198,7 @@ def test_bmi_recalculation():
 def test_quiz_refresh_recovery():
     """Q-F01: 刷新恢复"""
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=Ture)
+        browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
         page.goto(BASE_URL)
@@ -208,7 +208,7 @@ def test_quiz_refresh_recovery():
         page.reload()
 
         # 页面仍可继续（不是回到首页）
-        expect(page.locator("text=Continue")).to_be_visible()
+        expect(page.locator("text=CONTINUE")).to_be_visible()
 
         browser.close()
 
@@ -216,7 +216,7 @@ def test_quiz_refresh_recovery():
 def test_quiz_back_navigation():
     """Q-F02: 浏览器返回"""
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=Ture)
+        browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
         page.goto(BASE_URL)
@@ -226,7 +226,7 @@ def test_quiz_back_navigation():
         page.go_back()
 
         # 应回到上一题
-        expect(page.locator("text=Continue")).to_be_visible()
+        expect(page.locator("text=CONTINUE")).to_be_visible()
 
         browser.close()
 
@@ -234,7 +234,7 @@ def test_quiz_back_navigation():
 def test_quiz_network_recovery():
     """Q-F04: 断网恢复"""
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=Ture)
+        browser = p.chromium.launch(headless=True)
         context = browser.new_context()
 
         page = context.new_page()
@@ -251,6 +251,6 @@ def test_quiz_network_recovery():
         context.set_offline(False)
 
         # 页面仍可继续
-        expect(page.locator("text=Continue")).to_be_visible()
+        expect(page.locator("text=CONTINUE")).to_be_visible()
 
         browser.close()
