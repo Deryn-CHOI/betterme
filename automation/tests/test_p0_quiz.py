@@ -9,13 +9,18 @@ BASE_URL = "https://betterme-pilates.com/first-page-brand-palette?flow=2117"
 # ======================
 
 def click_continue(page):
-    """点击 Continue / Next Step 按钮（兼容不同文案）"""
-    if page.locator("text=CONTINUE").is_visible():
-        page.click("text=CONTINUE")
-    elif page.locator("text=NEXT STEP").is_visible():
-        page.click("text=NEXT STEP")
+    btn = page.locator("button").filter(has_text="CONTINUE").first
+
+    if btn.count() > 0:
+        btn.wait_for(timeout=5000)
+        btn.click()
     else:
-        raise Exception("No continue button found")
+        # 兜底（Next Step）
+        btn2 = page.locator("button").filter(has_text="NEXT").first
+        if btn2.count() > 0:
+            btn2.click()
+        else:
+            raise Exception("No continue button found")
 
 
 def select_first_option(page):
