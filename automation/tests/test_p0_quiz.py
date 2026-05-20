@@ -52,15 +52,14 @@ def advance_quiz(page, steps=40):
 
 
 def go_to_height_page(page):
-    """
-    快速推进到身高输入页
-    """
-    page.goto(BASE_URL)
+    try:
+        page.get_by_text("Accept").click(timeout=3000)
+    except:
+        pass
 
-    for _ in range(40):
-        if page.locator("text=How tall are you").is_visible():
-            return
-        advance_quiz(page, steps=1)
+    page.get_by_role("button", name="Age: 18-29").click()
+
+    advance_quiz(page, steps=1)
 
 
 # ======================
