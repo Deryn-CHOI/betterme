@@ -2,7 +2,7 @@ import pytest
 from playwright.sync_api import expect
 
 
-QUIZ_URL = "https://betterme.world/quiz?flow=2117"
+QUIZ_URL = "https://betterme-pilates.com/first-page-brand-palette?flow=2117"
 
 
 def click_continue(page):
