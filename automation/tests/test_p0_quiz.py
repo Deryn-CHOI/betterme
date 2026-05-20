@@ -55,16 +55,22 @@ def advance_quiz(page, steps=40):
             break
 
 
+import re
+
 def go_to_height_page(page):
     page.goto("https://betterme-pilates.com/first-page-brand-palette?flow=2117")
     page.wait_for_load_state("domcontentloaded")
 
-    if page.locator("text=Accept").count() > 0:
-        page.click("text=Accept")
+    # 点击年龄（强制点击）
+    btn = page.locator("button").filter(has_text="18-29").first
+    btn.wait_for(timeout=10000)
+    btn.click(force=True)
 
-    page.locator("button:has-text('18-29')").click()
+    # 等页面跳转（关键）
+    page.wait_for_timeout(1000)
 
-    page.wait_for_selector("input[type='number']", timeout=10000)
+    # 等 height 输入框
+    page.wait_for_selector("input", timeout=10000)
 
 
 # ======================
