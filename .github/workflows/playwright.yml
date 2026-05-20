@@ -1,23 +1,44 @@
-name: Playwright Tests
+name: Playwright Python Tests
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
-      - run: pip install -r requirements.txt
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - run: playwright install --with-deps
+      - name: Install Playwright browsers
+        run: |
+          python -m playwright install --with-deps chromium
 
-      - run: pytest automation/tests --html=report.html
+      - name: Run pytest
+        run: |
+          pytest automation/tests -vv -s --tb=short --html=report.html --self-contained-html
+
+      - name: Upload pytest HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-report
+          path: report.html
